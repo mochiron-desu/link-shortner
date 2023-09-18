@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="static\style.css">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Short Key</th>
+                <th>Long URL</th>
+                <th>Visit Count</th>
+                <th>IP Log</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for link in links %}
+            <tr>
+                <td>{{ link.short_key }}</td>
+                <td>{{ link.long_url }}</td>
+                <td>{{ link.visit_count }}</td>
+                <td>
+                    <ul>
+                        {% for ip in link.ip_log %}
+                        <li>{{ ip }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

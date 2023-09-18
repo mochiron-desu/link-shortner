@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #9A3B3B;
+    /* Warm yellow */
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #F2ECBE;
+    /* Tomato red */
+    margin-top: 20px;
+}
+
+form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+label {
+    font-size: 18px;
+    color: #E2C799;
+    /* Orange red */
+}
+
+input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #FF4500;
+    border-radius: 5px;
+    background-color: #f2dfbd
+}
+
+button[type="submit"] {
+    background-color: #FF4500;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #FF6347;
+}
+
+#shortened-url {
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+}
+
+p {
+    font-size: 18px;
+    color: #F2ECBE;
+}
+
+a {
+    font-size: 20px;
+    color: #E2C799;
+    text-decoration: underline;
+}
+
+/* Apply basic table formatting */
+table {
+    width: 80%; /* Set the table width to 80% */
+    margin: 0 auto; /* Center the table horizontally */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #010101;
+    text-align: left;
+    padding: 8px;
+  background-color:#f2dfbd;
+}
+
+thead {
+    background-color: #E2C799;
+}
+
+/* Style the table header cells */
+th {
+    background-color: #E2C799;
+    color: black;
+}
+
+/* Style alternating rows */
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Style IP Log list */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+}

@@ -1,14 +1,21 @@
-from flask import Flask, request, redirect, jsonify, render_template
+from flask import Flask, request, redirect, jsonify, render_template, session, url_for
 import random
 import string
 import pymongo
 
 app = Flask(__name__, static_folder='static')
+app.secret_key = 'your-secret-key'  # Replace with a secure secret key
 
 # Initialize MongoDB connection (local hosted in this example)
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["link_shortener"]
 collection = db["links"]
+
+def authenticate(username, password):
+    # Replace with your own username and password
+    valid_username = "admin"
+    valid_password = "password"
+    return username == valid_username and password == valid_password
 
 def generate_short_key():
     characters = string.ascii_letters + string.digits
@@ -55,6 +62,31 @@ def redirect_to_original(short_key):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if authenticate(username, password):
+            session['authenticated'] = True
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return render_template('admin_login.html', error='Invalid credentials')
+    return render_template('admin_login.html', error=None)
+
+@app.route('/admin')
+def admin_dashboard():
+    if not session.get('authenticated'):
+        return redirect(url_for('admin_login'))
+    # Fetch all shortened URLs with visit counts and IP logs
+    all_links = list(collection.find({}, {"_id": 0}))
+    return render_template('admin.html', links=all_links)
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('authenticated', None)
+    return redirect(url_for('admin_login'))
 
 if __name__ == '__main__':
     app.run()
