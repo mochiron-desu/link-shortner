@@ -46,9 +46,11 @@ def shorten_url():
 @app.route('/<short_key>')
 def redirect_to_original(short_key):
     link_entry = collection.find_one({"short_key": short_key})
+    print(link_entry)
     
     if link_entry:
         long_url = link_entry["long_url"]
+        print(f"LONG URL: {long_url}")
         
         # Increment visit count and log IP
         link_entry["visit_count"] += 1
@@ -79,9 +81,11 @@ def admin_login():
 def admin_dashboard():
     if not session.get('authenticated'):
         return redirect(url_for('admin_login'))
+    
     # Fetch all shortened URLs with visit counts and IP logs
     all_links = list(collection.find({}, {"_id": 0}))
-    return render_template('admin.html', links=all_links)
+    return render_template('admin.html', links=all_links, authenticated=True)
+
 
 @app.route('/admin/logout')
 def admin_logout():
