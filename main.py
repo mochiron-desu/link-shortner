@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, jsonify, render_template, session, u
 import random
 import string
 import pymongo
+from urllib.parse import urlparse
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'your-secret-key'  # Replace with a secure secret key
@@ -46,11 +47,13 @@ def shorten_url():
 @app.route('/<short_key>')
 def redirect_to_original(short_key):
     link_entry = collection.find_one({"short_key": short_key})
-    print(link_entry)
     
     if link_entry:
         long_url = link_entry["long_url"]
-        print(f"LONG URL: {long_url}")
+        
+        # Ensure the original URL is an absolute URL with a scheme
+        if not long_url.startswith(('http://', 'https://')):
+            long_url = 'https://' + long_url  # You can default to http:// or https:// based on your requirements
         
         # Increment visit count and log IP
         link_entry["visit_count"] += 1
