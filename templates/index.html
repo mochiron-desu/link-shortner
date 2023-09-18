@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9A3B3B;
+            /* Warm yellow */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #F2ECBE;
+            /* Tomato red */
+            margin-top: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #E2C799;
+            /* Orange red */
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #FF4500;
+            border-radius: 5px;
+          background-color:#f2dfbd
+        }
+
+        button[type="submit"] {
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #FF6347;
+        }
+
+        #shortened-url {
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        p {
+            font-size: 18px;
+            color: #F2ECBE;
+        }
+
+        a {
+            font-size: 20px;
+            color: #E2C799;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Link Shortener</h1>
+
+    <form id="shorten-form">
+        <label for="long-url">Enter a long URL:</label>
+        <input type="text" id="long-url" name="long-url" required>
+        <button type="submit">Shorten</button>
+    </form>
+
+    <div id="shortened-url" style="display: none;">
+        <p>Shortened URL:</p>
+        <a id="short-link" href=""></a>
+    </div>
+
+    <script>
+        document.getElementById('shorten-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const longUrl = document.getElementById('long-url').value;
+            const response = await fetch('/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ long_url: longUrl }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                const shortLink = document.getElementById('short-link');
+                shortLink.href = data.short_url;
+                shortLink.textContent = data.short_url;
+                document.getElementById('shortened-url').style.display = 'block';
+            } else {
+                alert('Error: ' + data.error);
+            }
+        });
+    </script>
+</body>
+
+</html>
