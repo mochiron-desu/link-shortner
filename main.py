@@ -8,9 +8,9 @@ app = Flask(__name__, static_folder='static')
 app.secret_key = 'your-secret-key'  # Replace with a secure secret key
 
 # Initialize MongoDB connection (local hosted in this example)
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client["link_shortener"]
-collection = db["links"]
+client = pymongo.MongoClient("url")
+db = client["databse"]
+collection = db["collection"]
 
 def authenticate(username, password):
     # Replace with your own username and password
